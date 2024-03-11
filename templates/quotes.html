@@ -1,0 +1,32 @@
+<html>
+    <body>
+        <h1>Quotes</h1>
+        <hr>
+        <table>
+            {% for item in data %}
+            <tr>
+                <td>
+                    {{item["text"]}}
+                </td>
+                <td>
+                    <em>--</em>
+                    <em>{{item["author"]}}</em>
+                </td>
+                <td>
+                    [
+                    <a href="/delete/{{item['_id']}}">Delete</a>
+                    <a href="/update/{{item['_id']}}">Update</a>
+                    ]
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <form action="/create">
+            <input type="text" name="text" placeholder="Quote">
+            <input type="text" name="author" placeholder="Author">
+            <input type="submit" value="Add">
+        </form>
+
+    </body>
+</html>

@@ -1,0 +1,11 @@
+<html>
+<body>
+{% for item in data %}
+<form action="/update/{{item['_id']}}" method="post">
+    <input type="text" name="text" value="{{item['text']}}">
+    <input type="text" name="author" value="{{item['author']}}">
+    <input type="submit" value="Submit">
+</form>
+{% endfor %}
+</body>
+</html>
