@@ -28,6 +28,8 @@ def get_quotes():
     # display the data
     return render_template("quotes.html", data=data)
 
+@app.route("/quotes/<page>", methods=["GET"])
+
 @app.route("/create", methods=["GET"])
 def post_quotes():
     if request.method == "GET":
@@ -41,26 +43,24 @@ def post_quotes():
     return redirect("/quotes")
 
 @app.route("/update/<id>", methods=["GET"])
-def update_quotes(id=None):
-    if request.method == "GET":
-        # open the quotes collection
-        quotes_collection = quotes_db.quotes_collection
-        # load the data
-        data = list(quotes_collection.find({"_id":ObjectId(id)}))
-        print(data)
+def update_quotes_get(id=None):
+    # open the quotes collection
+    quotes_collection = quotes_db.quotes_collection
+    # load the data
+    data = list(quotes_collection.find({"_id":ObjectId(id)}))
     return render_template("update_quote.html", data=data)
 
-@app.route("/update/<id>", methods=["GET"])
-def update_quotes(id=None):
-    if request.method == "GET":
-        # open the quotes collection
-        quotes_collection = quotes_db.quotes_collection
-        # load the data
-        data = list(quotes_collection.find({"_id":ObjectId(id)}))
-        print(data)
-    return render_template("update_quote.html", data=data)
+@app.route("/update/<id>", methods=["POST"])
+def update_quotes_post(id=None):
+    # open the quotes collection
+    quotes_collection = quotes_db.quotes_collection
+    # update the item
+    quotes_collection.update_one({"_id":ObjectId(id)}, {"$set": {
+        "text": request.form["text"],
+        "author": request.form["author"]
+    }})
+    return redirect("/quotes")
     
-@app.route("/delete", methods=["GET"])
 @app.route("/delete/<id>", methods=["GET"])
 def get_delete(id=None):
     if id:
